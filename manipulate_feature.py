@@ -47,39 +47,87 @@ def TSPE_HT(CM, faktor_std=1):
     CM1 = np.ma.masked_equal(CM, 0)
     std = np.std(CM1, ddof=1)
     mean = np.mean(CM1)
-    HT = faktor_std * std + mean
-    T1CM = np.where(CM > HT, CM, 0)
+    if mean > 0:
+        HT = mean + faktor_std * std
+        T1CM = np.where(CM > HT, CM, 0)
+    else:
+        HT = mean - faktor_std * std
+        T1CM = np.where(CM < HT, CM, 0)
     return T1CM
 
 
 def TSPE_DDT(CM, faktor_std=1):
     import numpy as np
-    import numpy.ma as ma
-    T1CM = TSPE_HT(CM, faktor_std)
+
+    real_CM = CM
+    CM_neg = np.where(CM < 0, CM, 0)
+    CM_pos = np.where(CM > 0, CM, 0)
+    T1CM_neg = TSPE_HT(CM_neg, faktor_std)
+    T1CM_pos = TSPE_HT(CM_pos, faktor_std)
+    T1CM = T1CM_pos + T1CM_neg
     # T1CM = np.array([[0, 0, 0, 7, 0], [0, 0, 0, 6, 0], [0, 0, 0, 0, 7], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]])
-    El_anzahl = T1CM.shape[0]
+
     # RM = np.array([[0, 3, 5, 0, 2], [5, 0, 4, 0, 3], [2, 4, 0, 4, 0], [5, 3, 2, 0, 5], [2, 1, 4, 2, 0]])
-    RM = CM - T1CM
-    RM1 = np.ma.masked_equal(RM, 0)
-    TM = np.zeros(shape=(El_anzahl, El_anzahl))
-    for i in range(0, RM.shape[0]):
-        iRow = RM1[i]
-        i_Row = RM[i]
-        if np.count_nonzero(i_Row) == 0:
-            # @TODO: pass oder TM[i] = np.mean(iRow) oder TM[i] = 0
-            TM[i] = 0
-        elif np.count_nonzero(i_Row) == 1:
-            TM[i] = 0
-        elif np.count_nonzero(i_Row) == 2:
-            TM[i] = np.mean(iRow) + faktor_std * np.std(iRow, ddof=1)
-        else:
-            for y in range(0, RM.shape[0]):
-                iRow.mask[y] = True
-                TM[i, y] = np.mean(iRow) + faktor_std * np.std(iRow, ddof=1)
-                if i_Row[y] != 0:
-                    iRow.mask[y] = False
-    T2CM = RM > TM
-    T2CM = ma.masked_where(~T2CM, RM, copy=True)
-    T2CM = T2CM.filled(0)
-    FM = T1CM + T2CM
+    FM_pos = DDT(CM_pos, T1CM_pos, faktor_std)
+    FM_neg = DDT(CM_neg, T1CM_neg, faktor_std)
+    FM = FM_pos + FM_neg
+    return FM
+
+def DDT(CM, T1CM, faktor_std):
+    import numpy as np
+    import numpy.ma as ma
+
+    mean = np.mean(CM)
+    if mean > 0:
+        RM = CM - T1CM
+        RM1 = np.ma.masked_equal(RM, 0)
+        El_anzahl = T1CM.shape[0]
+        TM = np.zeros(shape=(El_anzahl, El_anzahl))
+        for i in range(0, RM.shape[0]):
+            iRow = RM1[i]
+            i_Row = RM[i]
+            if np.count_nonzero(i_Row) == 0:
+                # @TODO: pass oder TM[i] = np.mean(iRow) oder TM[i] = 0
+                TM[i] = 0
+            elif np.count_nonzero(i_Row) == 1:
+                TM[i] = 0
+            elif np.count_nonzero(i_Row) == 2:
+                TM[i] = np.mean(iRow) + faktor_std * np.std(iRow, ddof=1)
+            else:
+                for y in range(0, RM.shape[0]):
+                    iRow.mask[y] = True
+                    TM[i, y] = np.mean(iRow) + faktor_std * np.std(iRow, ddof=1)
+                    if i_Row[y] != 0:
+                        iRow.mask[y] = False
+        T2CM = RM > TM
+        T2CM = ma.masked_where(~T2CM, RM, copy=True)
+        T2CM = T2CM.filled(0)
+        FM = T1CM + T2CM
+    else:
+        RM = CM - T1CM
+        RM1 = np.ma.masked_equal(RM, 0)
+        El_anzahl = T1CM.shape[0]
+        TM = np.zeros(shape=(El_anzahl, El_anzahl))
+        for i in range(0, RM.shape[0]):
+            iRow = RM1[i]
+            i_Row = RM[i]
+            if np.count_nonzero(i_Row) == 0:
+                # @TODO: pass oder TM[i] = np.mean(iRow) oder TM[i] = 0
+                TM[i] = 0
+            elif np.count_nonzero(i_Row) == 1:
+                TM[i] = 0
+            elif np.count_nonzero(i_Row) == 2:
+                TM[i] = np.mean(iRow) - faktor_std * np.std(iRow, ddof=1)
+            else:
+                for y in range(0, RM.shape[0]):
+                    iRow.mask[y] = True
+                    TM[i, y] = np.mean(iRow) - faktor_std * np.std(iRow, ddof=1)
+                    if i_Row[y] != 0:
+                        iRow.mask[y] = False
+        T2CM = RM < TM
+        T2CM = ma.masked_where(~T2CM, RM, copy=True)
+        T2CM = T2CM.filled(0)
+        FM = T1CM + T2CM
+
+
     return FM
