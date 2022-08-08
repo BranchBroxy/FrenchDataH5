@@ -1,4 +1,16 @@
 def read_csv_file(csv_path):
+    """
+                Imports a csv file and returns a Pandas Data Frame
+                Parameters
+                ----------
+                csv_path : string
+                    Path of csv file which will be imported
+                Returns
+                -------
+                df : pandas.DataFrame
+                    DataFrame which contains the file,feature,feature_mean,feature_std,feature_values,feature_pref and feature_label.
+
+                """
     import pandas
     import numpy as np
     df = pandas.read_csv(csv_path)
@@ -7,6 +19,23 @@ def read_csv_file(csv_path):
 
 
 def apply_DDT_to_CM(df, faktor_std=1):
+    """
+                Applies the Double-Treshold-Algorithm (DDT) to a given Dataset
+                Parameters
+                ----------
+                df : pandas.DataFrame
+                    Path of csv file which will be imported
+
+                faktor_std : float or int, optional
+                    Faktor of how many times the standard deviation is multiplied and added to the mean of the data to generate a threshold.
+                    Default: 1
+
+                Returns
+                -------
+                FMs : np.array
+                    Numpy array which contains the filename and the Connectivity Matrix with DDT applied.
+
+                """
     import numpy as np
     TSPE_index = df[df["feature"] == "Connectivity_TSPE"].index.values.tolist()
     TSPE_df = df[df["feature"] == "Connectivity_TSPE"]
@@ -31,6 +60,18 @@ def read_h5_file(h5_path):
 
 
 def csv_string_to_nparray(s):
+    """
+                Converts a string to a numpy array.
+                Parameters
+                ----------
+                s : string
+                    String which contains a 2D numpy like array (e.g. "[[0, 3, 4] , [3, 8, 6]").
+                Returns
+                -------
+                array : np.array
+                    Converted 2D numpy array.
+
+                """
     import re
     import ast
     import numpy as np
@@ -38,7 +79,8 @@ def csv_string_to_nparray(s):
     s=re.sub('\[ +', '[', s.strip())
     # Replace commas and spaces
     s=re.sub('[,\s]+', ', ', s)
-    return np.array(ast.literal_eval(s))
+    array = np.array(ast.literal_eval(s))
+    return array
 
 
 def TSPE_HT(CM, faktor_std=1):
@@ -131,3 +173,73 @@ def DDT(CM, T1CM, faktor_std):
 
 
     return FM
+
+def CM_number_of_connections(CM):
+    """
+        Counts the number of inhibitory and excitatory connctions and calculates the e/i ratio.
+            Parameters
+            ----------
+            CM : np.array
+                Connectivity Matrix.
+            Returns
+            -------
+            ratio_number_of_connections : float
+                Ratio of excitatory to inhibitory connections.
+            """
+    import numpy as np
+    CM_neg = np.where(CM < 0, CM, 0)
+    CM_pos = np.where(CM > 0, CM, 0)
+    CM_pos_masked = np.ma.masked_equal(CM_pos, 0)
+    CM_pos_compressed = np.ma.compressed(CM_pos_masked)
+
+    CM_neg_masked = np.ma.masked_equal(CM_neg, 0)
+    CM_neg_compressed = np.ma.compressed(CM_neg_masked)
+
+    number_of_inhibitory_connections = int(CM_neg_compressed.size)
+    number_of_excitatory_connections = int(CM_pos_compressed.size)
+    ratio_number_of_connections = number_of_excitatory_connections/number_of_inhibitory_connections
+    return ratio_number_of_connections
+
+
+def calculate_n_moment_of_CM(CM, n_moment=1):
+
+    """
+        Calculates the n-moment of the whole CM, exc_CM and inh_CM.
+            Parameters
+            ----------
+            CM : np.array
+                Connectivity Matrix.
+
+            n_moment : int
+                Nth moment which is going to be calculated from the whole CM, exc_CM and inh_CM.
+            Returns
+            -------
+            total_moment: float
+                Total nth moment of the complet CM.
+
+            moment_of_inh : float
+                Nth moment of the inhibitory CM.
+
+            moment_of_exc : float
+                Nth moment of the excitatory CM.
+            """
+    import numpy as np
+    from scipy.stats import moment
+
+    CM_neg = np.where(CM < 0, CM, 0)
+    CM_pos = np.where(CM > 0, CM, 0)
+    CM_pos_masked = np.ma.masked_equal(CM_pos, 0)
+    CM_pos_compressed = np.ma.compressed(CM_pos_masked)
+
+    CM_neg_masked = np.ma.masked_equal(CM_neg, 0)
+    CM_neg_compressed = np.ma.compressed(CM_neg_masked)
+
+    CM = CM.flatten()
+
+    moment_of_inh = moment(CM_neg_compressed, moment=n_moment)
+    moment_of_exc = moment(CM_pos_compressed, moment=n_moment)
+    total_moment = moment(CM, moment=n_moment)
+
+    return total_moment, moment_of_inh, moment_of_exc
+
+

@@ -4,6 +4,22 @@ import unittest
 # how to run:
 # python software_test.py -v
 
+class Test_CM_manipulation(unittest.TestCase):
+    def test_CM_number_of_connections(self):
+        from manipulate_feature import CM_number_of_connections
+        CM = np.array([[0, -3, 5, 7, -2], [5, 0, 4, 6, 3], [2, -4, 0, -4, 7], [-5, 3, 2, 0, 5], [2, 1, -4, 2, 0]])
+        number_of_negatives_values = 6
+        number_of_positive_values = 14
+        ratio = number_of_positive_values/number_of_negatives_values
+        self.assertEqual(ratio, CM_number_of_connections(CM))
+
+    def test_n_moment_of_CM_one(self):
+        from manipulate_feature import calculate_n_moment_of_CM
+        CM = np.array([[1, 2, -3, -4, 5], [-1, 2, 3, -4, -5], [1, 2, -3, 4, -5]])
+        # 2nd moment =  Populationsvarianz (σ 2 ) not Stichprobenvarianz (s 2 ):
+        self.assertAlmostEqual((10.88888888888889, 1.6734693877551021, 1.75), calculate_n_moment_of_CM(CM, n_moment=2))
+
+
 class TestDDT(unittest.TestCase):
 
     def test_DDT(self):
