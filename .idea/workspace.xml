@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="update DDT (working also with negatives values)&#10;added Software Test">
+    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="add calculate_n_moment_of_CM, CM_number_of_connections and general comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Feature.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Feature.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manipulate_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/manipulate_feature.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/software_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/software_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_feature.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +50,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python tests.Python tests for software_test.Test_CM_manipulation.test_n_moment_of_CM_two">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="FrenchDataH5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,9 +144,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_CM_number_of_connections" />
         <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_n_moment_of_CM_two" />
         <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_n_moment_of_CM_one" />
-        <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_CM_number_of_connections" />
         <item itemvalue="Python tests.Python tests in software_test.py" />
         <item itemvalue="Python tests.Python tests for software_test.TestDDT.test_apply_DDT_to_CM" />
       </list>
@@ -168,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659020530079</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add calculate_n_moment_of_CM, CM_number_of_connections and general comments">
+      <created>1659985681458</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1659985681458</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,7 +194,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="update DDT (working also with negatives values)&#10;added Software Test" />
-    <option name="LAST_COMMIT_MESSAGE" value="update DDT (working also with negatives values)&#10;added Software Test" />
+    <MESSAGE value="add calculate_n_moment_of_CM, CM_number_of_connections and general comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="add calculate_n_moment_of_CM, CM_number_of_connections and general comments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -198,14 +206,9 @@
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manipulate_feature.py</url>
-          <line>188</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/manipulate_feature.py</url>
-          <line>242</line>
-          <option name="timeStamp" value="47" />
+          <url>file://$PROJECT_DIR$/plot_feature.py</url>
+          <line>170</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

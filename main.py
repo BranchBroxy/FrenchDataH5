@@ -72,7 +72,7 @@ def calculate_save_matlab_feature(data):
         for feature in matlab_feautre_list_french_data_test:
             # calculates the features via matlab
             feature_mean, feature_values, feature_std, feature_pref, feature_label = matlab_calc_feature(spike_list, amp, rec_dur, SaRa, feature)
-            # saves the feature in csv file
+            # saves the feature in csv file, csv_filename is path
             csv_path = export_feature_in_csv(feature, feature_mean, feature_std, feature_values, feature_pref, feature_label, csv_filename="Feature.csv", feature_file=file)
             # saves the feature in hdf5 file
             # export_feature_in_hdf5(feature, feature_mean, feature_std, feature_values, feature_pref, feature_label, af_filename="Feature.hdf5", feature_file=file)
@@ -94,15 +94,21 @@ def post_process_feature(csv_path, h5_path):
 
             """
 
-    from manipulate_feature import read_csv_file, apply_DDT_to_CM, TSPE_DDT, CM_number_of_connections
-    from plot_feature import plot_CM
+    from manipulate_feature import read_csv_file, apply_DDT_to_CM, TSPE_DDT, CM_number_of_connections, calculate_n_moment_of_CM
+    from plot_feature import plot_CM, plot_synchrony_comparrison_over_div
     data_frame = read_csv_file(csv_path)
     # read_h5_file(h5_path)
     # manipulates CMs with DDT
-    FM = apply_DDT_to_CM(data_frame, faktor_std=3)
-    for i in FM:
-        plot_CM(i[1], i[0])
-        CM_number_of_connections(i[1])
+    FM = apply_DDT_to_CM(data_frame, faktor_std=2)
+    for counter, dataset in enumerate(FM):
+        CM = dataset[1]
+        file_name = dataset[0]
+        plot_CM(CM, file_name)
+        CM_number_of_connections(CM)
+        total_moment, moment_of_inh, moment_of_exc = calculate_n_moment_of_CM(CM, n_moment=2)
+    plot_synchrony_comparrison_over_div(data_frame)
+
+
     return 0
 
 

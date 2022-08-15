@@ -39,7 +39,7 @@ def apply_DDT_to_CM(df, faktor_std=1):
     import numpy as np
     TSPE_index = df[df["feature"] == "Connectivity_TSPE"].index.values.tolist()
     TSPE_df = df[df["feature"] == "Connectivity_TSPE"]
-    shape_of_CM = csv_string_to_nparray(TSPE_df["feature_values"][0]).shape
+    shape_of_CM = csv_string_to_nparray(TSPE_df["feature_values"].iloc[0]).shape
     file = df.iloc[TSPE_index[0]]["file"]
     dt = np.dtype([('File', str, 2 * len(file)), ('CM', np.float64, shape_of_CM)])
     FMs = np.zeros(shape=(len(TSPE_index)), dtype=dt)
@@ -184,7 +184,7 @@ def CM_number_of_connections(CM):
             Returns
             -------
             ratio_number_of_connections : float
-                Ratio of excitatory to inhibitory connections.
+                Ratio of excitatory to inhibitory connections (R = number_of_excitatory_connections/number_of_inhibitory_connections).
             """
     import numpy as np
     CM_neg = np.where(CM < 0, CM, 0)
