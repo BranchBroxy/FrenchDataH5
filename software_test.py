@@ -19,6 +19,12 @@ class Test_CM_manipulation(unittest.TestCase):
         # 2nd moment =  Populationsvarianz (σ 2 ) not Stichprobenvarianz (s 2 ):
         self.assertAlmostEqual((10.88888888888889, 1.6734693877551021, 1.75), calculate_n_moment_of_CM(CM, n_moment=2))
 
+    def test_ratio_of_mean_of_strenght_connections_1(self):
+        from manipulate_feature import CM_ratio_of_mean_of_strenght_connections
+        CM = np.array([[-1, -1, -1, 1], [-2, 2, 2, -2], [1, 1, -1, 1], [-2, 2, -2, 2]])
+        calculated_ratio = CM_ratio_of_mean_of_strenght_connections(CM)
+        expected_ratio = 1
+        self.assertEqual(calculated_ratio, expected_ratio)
 
 class TestDDT(unittest.TestCase):
 

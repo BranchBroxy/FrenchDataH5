@@ -1,0 +1,7 @@
+numpy==1.23.0
+networkx
+pandas
+scipy
+h5py
+matplotlib
+

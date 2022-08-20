@@ -243,3 +243,31 @@ def calculate_n_moment_of_CM(CM, n_moment=1):
     return total_moment, moment_of_inh, moment_of_exc
 
 
+def CM_ratio_of_mean_of_strenght_connections(CM):
+    """
+        Calculates the total ratio of the mean strength excitatory to the mean strength inhibitory
+            Parameters
+            ----------
+            CM : np.array
+                Connectivity Matrix.
+            Returns
+            -------
+            ratio_mean_strength_of_connections : float
+                Ratio of mean strength of excitatory to inhibitory connections.
+            """
+    import numpy as np
+    CM_neg = np.where(CM < 0, CM, 0)
+    CM_neg = CM_neg * -1
+    CM_pos = np.where(CM > 0, CM, 0)
+    CM_pos_masked = np.ma.masked_equal(CM_pos, 0)
+    CM_pos_compressed = np.ma.compressed(CM_pos_masked)
+
+    CM_neg_masked = np.ma.masked_equal(CM_neg, 0)
+    CM_neg_compressed = np.ma.compressed(CM_neg_masked)
+
+    mean_of_strength_inhibitory_connections = CM_neg_compressed.mean()
+    mean_of_strength_excitatory_connections = CM_pos_compressed.mean()
+    ratio_mean_strength_of_connections = mean_of_strength_excitatory_connections/mean_of_strength_inhibitory_connections
+    return ratio_mean_strength_of_connections
+
+

@@ -142,9 +142,16 @@ def plot_CM(CM, path="", weights=False):
     #figure(figsize=(8, 6), dpi=80)
     path, file = os.path.split(path)
     TSPE_filename, TSPE_file_extension = os.path.splitext(file)
-    path = "CM/CM_" + TSPE_filename + ".png"
-    plt.savefig(path, edgecolor=None, bbox_inches="")
-
+    try:
+        path = "CM/CM_" + TSPE_filename + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+    except:
+        cwd = os.getcwd()
+        directory = "CM"
+        path = os.path.join(cwd, directory)
+        os.mkdir(path)
+        path = "CM/CM_" + TSPE_filename + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
 
     # plt.show()
 
