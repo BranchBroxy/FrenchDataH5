@@ -94,30 +94,32 @@ def post_process_feature(csv_path, h5_path):
 
             """
 
-    from manipulate_feature import read_csv_file, apply_DDT_to_CM, TSPE_DDT, CM_number_of_connections
+    from manipulate_feature import read_csv_file, apply_DDT_to_CM, CM_number_of_connections, CM_ratio_of_mean_of_strenght_connections
     from plot_feature import plot_CM
     data_frame = read_csv_file(csv_path)
     # read_h5_file(h5_path)
     # manipulates CMs with DDT
-    FM = apply_DDT_to_CM(data_frame, faktor_std=3)
+    FM = apply_DDT_to_CM(data_frame, faktor_std=2)
     for i in FM:
         plot_CM(i[1], i[0])
         CM_number_of_connections(i[1])
+        CM_ratio_of_mean_of_strenght_connections(i[1])
     return 0
 
 
 if __name__ == '__main__':
-    path = "/mnt/HDD/Data/FrenchData/"
-    path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
-    path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
+    # path = "/mnt/HDD/Data/FrenchData/"
+    # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
+    # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL"
     path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/4div/ctrl"
     print("Import of data ...")
-    all_h5_files = get_list_of_files(path, [".h5"])
-    print(all_h5_files)
-    print("Total number of files: " + str(len(all_h5_files)))
-    csv_feature_path = calculate_save_matlab_feature(all_h5_files)
+    # all_h5_files = get_list_of_files(path, [".h5"])
+    # print(all_h5_files)
+    # print("Total number of files: " + str(len(all_h5_files)))
+    # csv_feature_path = calculate_save_matlab_feature(all_h5_files)
+    csv_feature_path = "Feature.csv"
     print("Feature Calculation completly finished")
     # sv_feature_path = "/mnt/HDD/Programmieren/Python/FrenchDataH5/Feature.csv"
     post_process_feature(csv_feature_path, "/mnt/HDD/Programmieren/Python/FrenchDataH5/AF/Feature.hdf5")
