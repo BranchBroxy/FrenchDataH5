@@ -19,6 +19,8 @@ matlab_feautre_list_french_data = [
 'Connectivity_TSPE']
 
 matlab_feautre_list_french_data_test = [
+'Sync_RIASpikeDistance',
+'Sync_Contrast',
 'Connectivity_TSPE'
 ]
 
@@ -69,7 +71,7 @@ def calculate_save_matlab_feature(data):
     from export_feature import export_feature_in_csv, export_feature_in_hdf5
     for file in data:
         spike_list, amp, rec_dur, SaRa = import_h5(file)
-        for feature in matlab_feautre_list_french_data_test:
+        for feature in matlab_feautre_list_french_data:
             # calculates the features via matlab
             feature_mean, feature_values, feature_std, feature_pref, feature_label = matlab_calc_feature(spike_list, amp, rec_dur, SaRa, feature)
             # saves the feature in csv file, csv_filename is path
@@ -94,19 +96,38 @@ def post_process_feature(csv_path, h5_path):
 
             """
 
-    from manipulate_feature import read_csv_file, apply_DDT_to_CM, TSPE_DDT, CM_number_of_connections, calculate_n_moment_of_CM
-    from plot_feature import plot_CM, plot_synchrony_comparrison_over_div
+    from manipulate_feature import read_csv_file, apply_DDT_to_CM, TSPE_DDT, CM_number_of_connections,\
+        calculate_n_moment_of_CM, CM_ratio_of_mean_of_strenght_connections, find_div_of_file, find_group_of_file,\
+        get_sync_data_frame
+    from plot_feature import plot_CM, plot_data_over_div_con
+    import numpy as np
+    import pandas as pd
     data_frame = read_csv_file(csv_path)
     # read_h5_file(h5_path)
     # manipulates CMs with DDT
     FM = apply_DDT_to_CM(data_frame, faktor_std=2)
+    connectivity_feature_count = 3
+    # connectivity_feature = np.array(shape=(FM.size, connectivity_feature_count))
+    data = []
+
     for counter, dataset in enumerate(FM):
         CM = dataset[1]
         file_name = dataset[0]
         plot_CM(CM, file_name)
-        CM_number_of_connections(CM)
+        ratio_noc = CM_number_of_connections(CM)
+        ratio_msc = CM_ratio_of_mean_of_strenght_connections(CM)
+        # connectivity_feature
         total_moment, moment_of_inh, moment_of_exc = calculate_n_moment_of_CM(CM, n_moment=2)
-    plot_synchrony_comparrison_over_div(data_frame)
+        div = find_div_of_file(file_name)
+        group = find_group_of_file(file_name)
+        row = [file_name, div, group, CM, total_moment, moment_of_inh, moment_of_exc, ratio_noc, ratio_msc]
+        data.append(row)
+
+    connectivity_data_frame = pd.DataFrame(data, columns=["file_name", "DIV", "Group", "CM", "K2 both connections", "K2 inhibitory connections", "K2 excitatory connections", "Number Ratio", "Strength Ratio"])
+    synchrony_data_frame = get_sync_data_frame(data_frame)
+    plot_data_over_div_con(connectivity_data_frame)
+    # plot_data_over_div_sync(synchrony_data_frame)
+    print("here")
 
 
     return 0
@@ -114,11 +135,13 @@ def post_process_feature(csv_path, h5_path):
 
 if __name__ == '__main__':
     path = "/mnt/HDD/Data/FrenchData/"
-    path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
-    path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
+    # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
+    # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL"
     path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/4div/ctrl"
+    # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/7div/GST"
+
     print("Import of data ...")
     all_h5_files = get_list_of_files(path, [".h5"])
     print(all_h5_files)
@@ -127,6 +150,7 @@ if __name__ == '__main__':
     print("Feature Calculation completly finished")
     # sv_feature_path = "/mnt/HDD/Programmieren/Python/FrenchDataH5/Feature.csv"
     post_process_feature(csv_feature_path, "/mnt/HDD/Programmieren/Python/FrenchDataH5/AF/Feature.hdf5")
+    print("Post Processing of Connectivty Matrix finished")
 
 
 

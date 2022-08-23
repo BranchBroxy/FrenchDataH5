@@ -4,6 +4,17 @@ import unittest
 # how to run:
 # python software_test.py -v
 
+class Test_meta_functions(unittest.TestCase):
+    def test_get_div(self):
+        from manipulate_feature import find_div_of_file
+        filename = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/17div/GST/2021-10-22T15-50-08SC_29_11_2021_7DIV_38818_cortex.h5"
+        self.assertEqual(find_div_of_file(filename), 17)
+
+    def test_get_group(self):
+        from manipulate_feature import find_group_of_file
+        filename = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/17div/GST/2021-10-22T15-50-08SC_29_11_2021_7DIV_38818_cortex.h5"
+        self.assertEqual(find_group_of_file(filename), "GST")
+
 class Test_CM_manipulation(unittest.TestCase):
     def test_CM_number_of_connections(self):
         from manipulate_feature import CM_number_of_connections

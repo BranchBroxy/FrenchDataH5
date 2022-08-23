@@ -156,23 +156,12 @@ def plot_CM(CM, path="", weights=False):
     # plt.show()
 
 
-def plot_synchrony_comparrison_over_div(df):
-    sync_list = ['Sync_CC_selinger', 'Sync_STTC', 'Sync_MI1', 'Sync_MI2', 'Sync_PS', 'Sync_PS_M', 'Sync_Contrast',
-                 'Sync_Contrast_fixed', 'Sync_ISIDistance', 'Sync_SpikeDistance', 'Sync_SpikeSynchronization',
-                 'Sync_ASpikeSynchronization', 'Sync_AISIDistance', 'Sync_ASpikeDistance', 'Sync_RISpikeDistance',
-                 'Sync_RIASpikeDistance', 'Sync_EarthMoversDistance']
-    # b = df[(df[['xk', 'yk']] == 0).all(1)].index.tolist()
-    sync_index = df.loc[df["feature"].isin(sync_list)]
-    for i, file in enumerate(sync_index):
-        div_string_position = sync_index["file"].iloc[i].find("div")
-        if sync_index["file"].iloc[i][div_string_position-2].isnumeric():
-            div = int(str(sync_index["file"].iloc[i][div_string_position - 2]) + str(sync_index["file"].iloc[0][div_string_position - 1]))
-        else:
-            div = sync_index["file"].iloc[i][div_string_position-1]
-    div4 = []
-    div7 = []
-    div8 = []
-    div9 = []
-    div10 = []
-
+def plot_data_over_div_con(df):
+    import matplotlib.pyplot as plt
+    plt.plot(df["DIV"], df["K2 both connections"])
+    plt.show()
     print("here")
+
+
+
+

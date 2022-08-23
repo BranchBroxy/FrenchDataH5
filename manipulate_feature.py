@@ -270,4 +270,46 @@ def CM_ratio_of_mean_of_strenght_connections(CM):
     ratio_mean_strength_of_connections = mean_of_strength_excitatory_connections/mean_of_strength_inhibitory_connections
     return ratio_mean_strength_of_connections
 
+def find_div_of_file(filename):
+    div_string_position = filename.find("div")
+    if filename[div_string_position-2].isnumeric():
+        div = int(str(filename[div_string_position - 2]) + str(filename[div_string_position - 1]))
+    else:
+        div = filename[div_string_position-1]
+    return div
+
+def find_group_of_file(filename):
+    if "CTRL" in filename:
+        return "CTRl"
+    elif "FIBRILLAR TAU" in filename:
+        return "FIBRILLAR TAU"
+    elif "GST" in filename:
+        return "GST"
+    elif "SOLUBLE TAU" in filename:
+        return "SOLUBLE TAU"
+    else:
+        return False
+
+
+def get_sync_data_frame(df):
+    import pandas as pd
+    from manipulate_feature import find_div_of_file, find_group_of_file
+    sync_list = ['Sync_CC_selinger', 'Sync_STTC', 'Sync_MI1', 'Sync_MI2', 'Sync_PS', 'Sync_PS_M', 'Sync_Contrast',
+                 'Sync_Contrast_fixed', 'Sync_ISIDistance', 'Sync_SpikeDistance', 'Sync_SpikeSynchronization',
+                 'Sync_ASpikeSynchronization', 'Sync_AISIDistance', 'Sync_ASpikeDistance', 'Sync_RISpikeDistance',
+                 'Sync_RIASpikeDistance', 'Sync_EarthMoversDistance']
+    # b = df[(df[['xk', 'yk']] == 0).all(1)].index.tolist()
+    sync_index = df.loc[df["feature"].isin(sync_list)]
+    data = []
+    for index, row in sync_index.iterrows():
+        file_name = row["file"]
+        feature_name = row["feature"]
+        feature_value = row["feature_values"]
+        div = find_div_of_file(file_name)
+        group = find_group_of_file(file_name)
+        row = [file_name, div, group, feature_name, feature_value]
+        data.append(row)
+
+    synchrony_data_frame = pd.DataFrame(data, columns=["file_name", "DIV", "Group", "Feature", "Value"])
+    return synchrony_data_frame
 

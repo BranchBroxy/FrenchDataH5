@@ -8,7 +8,7 @@ def getListOfFiles(dirName, file_extension):
         extension_list.append(file_extension)
     if isinstance(file_extension, list):
         extension_list = file_extension
-    # create a list of file and sub directories
+    # create a list of file and subdirectories
     # names in the given directory
     listOfFile = os.listdir(dirName)
     allFiles = list()
