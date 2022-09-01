@@ -1,3 +1,9 @@
+sync_list = ['Sync_CC_selinger', 'Sync_STTC', 'Sync_MI1', 'Sync_MI2', 'Sync_PS', 'Sync_PS_M', 'Sync_Contrast',
+                 'Sync_Contrast_fixed', 'Sync_ISIDistance', 'Sync_SpikeDistance', 'Sync_SpikeSynchronization',
+                 'Sync_ASpikeSynchronization', 'Sync_AISIDistance', 'Sync_ASpikeDistance', 'Sync_RISpikeDistance',
+                 'Sync_RIASpikeDistance', 'Sync_EarthMoversDistance']
+
+con_list = ["K2 both connections", "K2 inhibitory connections", "K2 excitatory connections", "Number Ratio", "Strength Ratio"]
 def read_csv_file(csv_path):
     """
                 Imports a csv file and returns a Pandas Data Frame
@@ -18,7 +24,7 @@ def read_csv_file(csv_path):
     return df
 
 
-def apply_DDT_to_CM(df, faktor_std=1):
+def apply_DDT_to_CM(df, faktor_std=1, output_bool=False):
     """
                 Applies the Double-Treshold-Algorithm (DDT) to a given Dataset
                 Parameters
@@ -41,17 +47,41 @@ def apply_DDT_to_CM(df, faktor_std=1):
     TSPE_df = df[df["feature"] == "Connectivity_TSPE"]
     shape_of_CM = csv_string_to_nparray(TSPE_df["feature_values"].iloc[0]).shape
     file = df.iloc[TSPE_index[0]]["file"]
-    dt = np.dtype([('File', str, 2 * len(file)), ('CM', np.float64, shape_of_CM)])
+    dt = np.dtype([('File', str, 2 * len(file)), ('CM_DDT', np.float64, shape_of_CM), ('CM', np.float64, shape_of_CM)])
     FMs = np.zeros(shape=(len(TSPE_index)), dtype=dt)
     for count, i in enumerate(TSPE_index):
+        if output_bool:
+            print(f'Applying DDT to CM number {count+1} of {len(TSPE_index)}')
         CM = df.iloc[i]["feature_values"]
         file = df.iloc[i]["file"]
         CM = csv_string_to_nparray(CM)
         FM = TSPE_DDT(CM, faktor_std)
         FMs[count][0] = file
         FMs[count][1] = FM
+        FMs[count][2] = CM
     return FMs
 
+def get_con_data_frame(FM):
+    from plot_feature import plot_CM
+    import pandas as pd
+    data = []
+
+    for counter, dataset in enumerate(FM):
+        CM = dataset[2]
+        CM_DDT = dataset[1]
+        file_name = dataset[0]
+
+        ratio_noc = CM_number_of_connections(CM_DDT)
+        ratio_msc = CM_ratio_of_mean_of_strenght_connections(CM_DDT)
+        # connectivity_feature
+        total_moment, moment_of_inh, moment_of_exc = calculate_n_moment_of_CM(CM_DDT, n_moment=2)
+        div = find_div_of_file(file_name)
+        group = find_group_of_file(file_name)
+        row = [file_name, div, group, CM_DDT, CM, total_moment, moment_of_inh, moment_of_exc, ratio_noc, ratio_msc]
+        data.append(row)
+
+    connectivity_data_frame = pd.DataFrame(data, columns=["file_name", "DIV", "Group", "CM_DDT", "CM", "K2 both connections", "K2 inhibitory connections", "K2 excitatory connections", "Number Ratio", "Strength Ratio"])
+    return connectivity_data_frame
 def read_h5_file(h5_path):
     import numpy as np
     import h5py  # hdf5
@@ -280,7 +310,7 @@ def find_div_of_file(filename):
 
 def find_group_of_file(filename):
     if "CTRL" in filename:
-        return "CTRl"
+        return "CTRL"
     elif "FIBRILLAR TAU" in filename:
         return "FIBRILLAR TAU"
     elif "GST" in filename:
@@ -294,22 +324,21 @@ def find_group_of_file(filename):
 def get_sync_data_frame(df):
     import pandas as pd
     from manipulate_feature import find_div_of_file, find_group_of_file
-    sync_list = ['Sync_CC_selinger', 'Sync_STTC', 'Sync_MI1', 'Sync_MI2', 'Sync_PS', 'Sync_PS_M', 'Sync_Contrast',
-                 'Sync_Contrast_fixed', 'Sync_ISIDistance', 'Sync_SpikeDistance', 'Sync_SpikeSynchronization',
-                 'Sync_ASpikeSynchronization', 'Sync_AISIDistance', 'Sync_ASpikeDistance', 'Sync_RISpikeDistance',
-                 'Sync_RIASpikeDistance', 'Sync_EarthMoversDistance']
+
     # b = df[(df[['xk', 'yk']] == 0).all(1)].index.tolist()
     sync_index = df.loc[df["feature"].isin(sync_list)]
     data = []
     for index, row in sync_index.iterrows():
         file_name = row["file"]
         feature_name = row["feature"]
-        feature_value = row["feature_values"]
+        feature_value = row["feature_mean"]
         div = find_div_of_file(file_name)
         group = find_group_of_file(file_name)
         row = [file_name, div, group, feature_name, feature_value]
         data.append(row)
 
     synchrony_data_frame = pd.DataFrame(data, columns=["file_name", "DIV", "Group", "Feature", "Value"])
+    synchrony_data_frame['DIV'] = pd.to_numeric(synchrony_data_frame['DIV'])
+    synchrony_data_frame = synchrony_data_frame.sort_values(by=["DIV", "Group"])
     return synchrony_data_frame
 

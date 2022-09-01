@@ -10,13 +10,13 @@ def mea_layout():
 
     return xy
 
-def plot_CM(CM, path="", weights=False):
+def plot_CM(CM, directory, path="", weights=False):
     import networkx as nx
     import matplotlib.pyplot as plt
     import os
 
     G = nx.DiGraph()
-    fig = plt.figure(1, figsize=(10, 8), dpi=100)
+    fig = plt.figure(1, figsize=(10, 8), dpi=200)
     G.add_nodes_from(range(64))
     G = nx.restricted_view(G, [0, 7, 56, 63], [])
     #G.add_edge(1, 2)
@@ -143,24 +143,132 @@ def plot_CM(CM, path="", weights=False):
     path, file = os.path.split(path)
     TSPE_filename, TSPE_file_extension = os.path.splitext(file)
     try:
-        path = "CM/CM_" + TSPE_filename + ".png"
+        # directory
+        path = directory + "/" + directory + "_" + TSPE_filename + ".png"
+        # path = "CM/CM_" + TSPE_filename + ".png"
         plt.savefig(path, edgecolor=None, bbox_inches="")
     except:
         cwd = os.getcwd()
-        directory = "CM"
+        # directory = "CM"
         path = os.path.join(cwd, directory)
         os.mkdir(path)
-        path = "CM/CM_" + TSPE_filename + ".png"
+        path = directory + "/" + directory + "_" + TSPE_filename + ".png"
         plt.savefig(path, edgecolor=None, bbox_inches="")
 
     # plt.show()
 
 
-def plot_data_over_div_con(df):
+def plot_data_over_div_con_old(df, feature):
     import matplotlib.pyplot as plt
-    plt.plot(df["DIV"], df["K2 both connections"])
-    plt.show()
-    print("here")
+    """df.to_csv('con_df.csv')
+    df.to_json('abc.json')
+    df = pd.read_json('abc.json')
+    df.to_pickle('test.csv')
+    test = pd.read_pickle('test.csv')"""
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import os
+    import plotly
+
+    # Import Data
+    # Import Data
+    # df = pd.read_csv(r'sync_df.csv')
+    df_feature = df[["file_name", "DIV", "Group", feature]]
+    # Draw Stripplot
+    fig, ax = plt.subplots(figsize=(20, 10))
+    # plt.tight_layout()
+    # sns.swarmplot(x="DIV", y=feature, data=df_feature, size=8, ax=ax, linewidth=1, dodge=True, hue="Group", marker=["^", "o", "^", "^"])
+    # sns.stripplot(x=df_spike_contrast.DIV, y=df_spike_contrast.Value, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue=df_spike_contrast.Group, palette="Set1", data=df_spike_contrast)
+    # sns.stripplot(x="DIV", y=feature, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue="Group", palette="Set1", data=df_feature)
+    # jitter = 0, dodge = True
+    """plotly.express.strip(data_frame=df_feature, x=None, y=None, color=None, facet_row=None, facet_col=None,
+                         facet_col_wrap=0,
+                         facet_row_spacing=None, facet_col_spacing=None, hover_name=None, hover_data=None,
+                         custom_data=None, animation_frame=None, animation_group=None, category_orders=None,
+                         labels=None, color_discrete_sequence=None, color_discrete_map=None, orientation=None,
+                         stripmode=None, log_x=False, log_y=False, range_x=None, range_y=None, title=None,
+                         template=None, width=None, height=None)"""
+
+    # Decorations
+    plt.title(feature, fontsize=22)
+    try:
+        path = "ConPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+    except:
+        cwd = os.getcwd()
+        directory = "ConPlot"
+        path = os.path.join(cwd, directory)
+        os.mkdir(path)
+        path = "ConPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+
+def plot_data_over_div_con(df, feature, output_bool=False):
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import os
+    import plotly
+    fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
+    # Import Data
+    # Import Data
+    # df = pd.read_csv(r'sync_df.csv')
+    df_feature = df[["file_name", "DIV", "Group", feature]]
+    sns.stripplot(x="DIV", y=feature, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue="Group", palette="Set1",
+                  data=df_feature)
+    """plotly.express.strip(data_frame=df_feature, x=None, y=None, color=None, facet_row=None, facet_col=None, facet_col_wrap=0,
+                         facet_row_spacing=None, facet_col_spacing=None, hover_name=None, hover_data=None,
+                         custom_data=None, animation_frame=None, animation_group=None, category_orders=None,
+                         labels=None, color_discrete_sequence=None, color_discrete_map=None, orientation=None,
+                         stripmode=None, log_x=False, log_y=False, range_x=None, range_y=None, title=None,
+                         template=None, width=None, height=None)"""
+    if output_bool:
+        print(f'Plotting Connectivity feature {feature}')
+
+    try:
+        path = "ConPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+    except:
+        cwd = os.getcwd()
+        directory = "ConPlot"
+        path = os.path.join(cwd, directory)
+        os.mkdir(path)
+        path = "ConPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+
+def plot_data_over_div_sync(df, feature, output_bool=False):
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import os
+
+    # Import Data
+    # Import Data
+    # df = pd.read_csv(r'sync_df.csv')
+    df_feature = df.loc[df['Feature'] == feature]
+    # Draw Stripplot
+    fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
+    # plt.tight_layout()
+    # sns.swarmplot(x=df_spike_contrast.DIV, y=df_spike_contrast.Value, size=8, ax=ax, linewidth=1, dodge=True, hue=df_spike_contrast.Group)
+    # sns.stripplot(x=df_spike_contrast.DIV, y=df_spike_contrast.Value, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue=df_spike_contrast.Group, palette="Set1", data=df_spike_contrast)
+    sns.stripplot(x="DIV", y="Value", jitter=0, size=5, ax=ax, linewidth=1, dodge=True,
+                  hue="Group", palette="Set1", data=df_feature)
+    #jitter = 0, dodge = True
+    if output_bool:
+        print(f'Plotting Synchrony feature {feature}')
+    # Decorations
+    plt.title(feature + 'method Synchrony', fontsize=22)
+    try:
+        path = "SyncPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+    except:
+        cwd = os.getcwd()
+        directory = "SyncPlot"
+        path = os.path.join(cwd, directory)
+        os.mkdir(path)
+        path = "SyncPlot/" + feature + "DIV" + ".png"
+        plt.savefig(path, edgecolor=None, bbox_inches="")
+
+
+
+
 
 
 

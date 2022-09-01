@@ -7,6 +7,7 @@ import unittest
 class Test_meta_functions(unittest.TestCase):
     def test_get_div(self):
         from manipulate_feature import find_div_of_file
+
         filename = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/17div/GST/2021-10-22T15-50-08SC_29_11_2021_7DIV_38818_cortex.h5"
         self.assertEqual(find_div_of_file(filename), 17)
 
@@ -117,6 +118,14 @@ class TestDDT(unittest.TestCase):
 
         FM_DDT = apply_DDT_to_CM(test_df, faktor_std=1)
         self.assertEqual(True, np.array_equal(FM_real_neg, FM_DDT[0][1]))
+
+    def test_CM_and_CM_DDT_diffrent(self):
+        import pandas as pd
+        connectivity_data_frame = pd.read_json("con_df.json")
+        for index, row in connectivity_data_frame.iterrows():
+            CM = np.array(row.CM)
+            CM_DDT = np.array(row.CM_DDT)
+            self.assertEqual(False, np.array_equal(CM, CM_DDT))
 
 if __name__ == '__main__':
     unittest.main()
