@@ -24,6 +24,22 @@ matlab_feautre_list_french_data_test = [
 'Connectivity_TSPE'
 ]
 
+def init_function():
+    import os
+    if os.path.exists(os.path.join(os.getcwd(), "DrCell")) and os.path.isfile(os.path.join(os.getcwd(), "DrCell", "DrCell.m")):
+        print("DrCell available")
+    else:
+        print("DrCell is not available")
+        print("Downloading DrCell from GitHub")
+        # https://pypi.org/project/directory-downloader/
+        from git import Repo
+        git_url = "https://github.com/biomemsLAB/DrCell"
+        cwd = os.getcwd()
+        directory = "DrCell"
+        repo_dir = os.path.join(cwd, directory)
+        Repo.clone_from(git_url, repo_dir)
+
+
 def get_list_of_files(path, file_type):
     """
         Generates a list with all file path from a given path.
@@ -82,7 +98,7 @@ def calculate_save_matlab_feature(data):
 
     return csv_path
 
-def post_process_feature(csv_path, h5_path):
+def post_process_feature(csv_path, h5_path=""):
     """
             Manipulates the features if necessary.
             Parameters
@@ -102,7 +118,7 @@ def post_process_feature(csv_path, h5_path):
     data_frame = read_csv_file(csv_path)
     # read_h5_file(h5_path)
     # manipulates CMs with DDT
-    FM = apply_DDT_to_CM(data_frame, faktor_std=2, output_bool=True)
+    FM = apply_DDT_to_CM(data_frame, faktor_std=2, verbose=True)
 
     connectivity_data_frame = get_con_data_frame(FM)
     synchrony_data_frame = get_sync_data_frame(data_frame)
@@ -164,16 +180,16 @@ if __name__ == '__main__':
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/4div/ctrl"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/7div/GST"
-
+    init_function()
     print("Import of data ...")
     all_h5_files = get_list_of_files(path, [".h5"])
     # print(all_h5_files)
     print("Total number of files: " + str(len(all_h5_files)))
     # csv_feature_path = calculate_save_matlab_feature(all_h5_files)
-    csv_feature_path = "/mnt/HDD/Programmieren/Python/FrenchDataH5/Feature.csv"
+    csv_feature_path = "Feature.csv"
     print("Feature Calculation completly done")
     # csv_feature_path = "/mnt/HDD/Programmieren/Python/FrenchDataH5/Feature.csv"
-    con_json_path, sync_json_path = post_process_feature(csv_feature_path, "/mnt/HDD/Programmieren/Python/FrenchDataH5/AF/Feature.hdf5")
+    con_json_path, sync_json_path = post_process_feature(csv_feature_path)
     print("Post Processing of Connectivty Matrix done")
     plot_all_feature(con_json_path, sync_json_path)
     print("Ploting of Feature and Connectivty Matrix done")

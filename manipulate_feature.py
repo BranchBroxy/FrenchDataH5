@@ -24,7 +24,7 @@ def read_csv_file(csv_path):
     return df
 
 
-def apply_DDT_to_CM(df, faktor_std=1, output_bool=False):
+def apply_DDT_to_CM(df, faktor_std=1, verbose=False):
     """
                 Applies the Double-Treshold-Algorithm (DDT) to a given Dataset
                 Parameters
@@ -50,7 +50,7 @@ def apply_DDT_to_CM(df, faktor_std=1, output_bool=False):
     dt = np.dtype([('File', str, 2 * len(file)), ('CM_DDT', np.float64, shape_of_CM), ('CM', np.float64, shape_of_CM)])
     FMs = np.zeros(shape=(len(TSPE_index)), dtype=dt)
     for count, i in enumerate(TSPE_index):
-        if output_bool:
+        if verbose:
             print(f'Applying DDT to CM number {count+1} of {len(TSPE_index)}')
         CM = df.iloc[i]["feature_values"]
         file = df.iloc[i]["file"]
@@ -59,6 +59,7 @@ def apply_DDT_to_CM(df, faktor_std=1, output_bool=False):
         FMs[count][0] = file
         FMs[count][1] = FM
         FMs[count][2] = CM
+
     return FMs
 
 def get_con_data_frame(FM):
