@@ -22,9 +22,8 @@ def matlab_all_feature(TS, AMP, rec_dur, SaRa, Selection, time_win, FR_min, N=0,
     TS = np.transpose(TS)
     TS = matlab.double(TS.tolist())
     AMP = matlab.double(AMP.tolist())
-    os.path.abspath(os.getcwd())
-    drcell_path = os.path.abspath(os.getcwd())
-    path_manuell_python = drcell_path + '/DrCell/shared/Engines/Python'
+    drcell_path = os.path.normpath(os.getcwd())
+    path_manuell_python = drcell_path + os.path.normpath('/DrCell/shared/Engines/Python')
     eng = matlab.engine.start_matlab()  # MatLab Umgebung aufrufen
     eng.cd(path_manuell_python)
     values = eng.adapter_python(drcell_path, TS, AMP, float(rec_dur), float(SaRa), Selection, float(time_win), float(FR_min))

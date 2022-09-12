@@ -202,7 +202,7 @@ def plot_data_over_div_con_old(df, feature):
         path = "ConPlot/" + feature + "DIV" + ".png"
         plt.savefig(path, edgecolor=None, bbox_inches="")
 
-def plot_data_over_div_con(df, feature, output_bool=False):
+def plot_data_over_div_con(df, feature, verbose=False):
     import matplotlib.pyplot as plt
     import seaborn as sns
     import os
@@ -220,7 +220,7 @@ def plot_data_over_div_con(df, feature, output_bool=False):
                          labels=None, color_discrete_sequence=None, color_discrete_map=None, orientation=None,
                          stripmode=None, log_x=False, log_y=False, range_x=None, range_y=None, title=None,
                          template=None, width=None, height=None)"""
-    if output_bool:
+    if verbose:
         print(f'Plotting Connectivity feature {feature}')
 
     try:
@@ -234,7 +234,8 @@ def plot_data_over_div_con(df, feature, output_bool=False):
         path = "ConPlot/" + feature + "DIV" + ".png"
         plt.savefig(path, edgecolor=None, bbox_inches="")
 
-def plot_data_over_div_sync(df, feature, output_bool=False):
+
+def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
     import matplotlib.pyplot as plt
     import seaborn as sns
     import os
@@ -244,27 +245,110 @@ def plot_data_over_div_sync(df, feature, output_bool=False):
     # df = pd.read_csv(r'sync_df.csv')
     df_feature = df.loc[df['Feature'] == feature]
     # Draw Stripplot
+
+    import math
+    if math.isnan(df_feature.Value.iloc[0]):
+        print(f"Skipping {feature}, because of Nan Value")
+        return
+    if verbose:
+        print(f'Plotting Synchrony feature {feature}')
+
+    if mode == "seaborn" or mode == "seaborn.swarmplot":
+        N=150
+        fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
+        sns.swarmplot(x=df_feature.DIV, y=df_feature.Value, size=8, ax=ax, linewidth=1, dodge=True,
+                      hue=df_feature.Group)
+        plt.title(feature + 'method Synchrony', fontsize=22)
+        plt.xticks(range(N))  # add loads of ticks
+        plt.grid()
+
+        plt.gca().margins(x=0.1, tight=True)
+        plt.gcf().canvas.draw()
+        # plt.gca().set_xlim([3, 11])
+        # plt.gcf().canvas.draw()
+        tl = plt.gca().get_xticklabels()
+        maxsize = max([t.get_window_extent().width for t in tl])
+        m = 1  # inch margin
+        s = maxsize / plt.gcf().dpi * N + 2 * m
+        margin = m / plt.gcf().get_size_inches()[0]
+
+        plt.gcf().subplots_adjust(left=margin, right=1. - margin)
+        plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])
+
+        try:
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            plt.savefig(path, edgecolor=None, bbox_inches="")
+            plt.close("all")
+        except:
+            cwd = os.getcwd()
+            directory = "SyncPlot"
+            path = os.path.join(cwd, directory)
+            os.mkdir(path)
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            plt.savefig(path, edgecolor=None, bbox_inches="")
+            plt.close("all")
+
+    elif mode == "seaborn.stripplot":
+        fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
+        plt.grid()
+        plt.title(feature + ' method Synchrony', fontsize=22)
+        sns.stripplot(x=df_feature.DIV, y=df_feature.Value, jitter=0, size=5, ax=ax, linewidth=1,
+                      dodge=True, hue=df_feature.Group, palette="Set1", data=df_feature)
+        try:
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            plt.savefig(path, edgecolor=None, bbox_inches="")
+            plt.close("all")
+        except:
+            cwd = os.getcwd()
+            directory = "SyncPlot"
+            path = os.path.join(cwd, directory)
+            os.mkdir(path)
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            plt.savefig(path, edgecolor=None, bbox_inches="")
+            plt.close("all")
+
+    elif mode == "plotly":
+        import plotly.express as px
+        fig = px.scatter(df_feature, x="DIV", y="Value", color="Group",
+                         title=feature,
+                         symbol="Group",
+                         marginal_y="rug",
+                         labels={"Feature": "Feature over DIV"}  # customize axis label
+                         )
+        fig.update_layout(
+            xaxis=dict(
+                autorange=False,
+                range=[3, 11],
+                tickmode="array",
+                tickvals=[4, 7, 8, 9, 10],
+                ticktext=[4, 7, 8, 9, 10],
+                dtick=1,
+
+            )
+        )
+        # fig.show()
+        try:
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            fig.write_image(path)
+        except:
+            cwd = os.getcwd()
+            directory = "SyncPlot"
+            path = os.path.join(cwd, directory)
+            os.mkdir(path)
+            path = "SyncPlot/" + feature + "DIV" + ".png"
+            fig.write_image(path)
+
+    """# plt.tight_layout()
     fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
-    # plt.tight_layout()
-    # sns.swarmplot(x=df_spike_contrast.DIV, y=df_spike_contrast.Value, size=8, ax=ax, linewidth=1, dodge=True, hue=df_spike_contrast.Group)
+    sns.swarmplot(x=df_feature.DIV, y=df_feature.Value, size=8, ax=ax, linewidth=1, dodge=True, hue=df_feature.Group)
     # sns.stripplot(x=df_spike_contrast.DIV, y=df_spike_contrast.Value, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue=df_spike_contrast.Group, palette="Set1", data=df_spike_contrast)
-    sns.stripplot(x="DIV", y="Value", jitter=0, size=5, ax=ax, linewidth=1, dodge=True,
-                  hue="Group", palette="Set1", data=df_feature)
+    # sns.stripplot(x="DIV", y=df_feature.Value, jitter=0, size=5, ax=ax, linewidth=1, dodge=True, hue="Group", palette="Set1", data=df_feature)
     #jitter = 0, dodge = True
-    if output_bool:
+    if verbose:
         print(f'Plotting Synchrony feature {feature}')
     # Decorations
-    plt.title(feature + 'method Synchrony', fontsize=22)
-    try:
-        path = "SyncPlot/" + feature + "DIV" + ".png"
-        plt.savefig(path, edgecolor=None, bbox_inches="")
-    except:
-        cwd = os.getcwd()
-        directory = "SyncPlot"
-        path = os.path.join(cwd, directory)
-        os.mkdir(path)
-        path = "SyncPlot/" + feature + "DIV" + ".png"
-        plt.savefig(path, edgecolor=None, bbox_inches="")
+    plt.title(feature + 'method Synchrony', fontsize=22)"""
+
 
 
 
