@@ -18,15 +18,16 @@ def matlab_calc_feature(spike_list, amp, rec_dur, SaRa, feature):
 
 
 
-def matlab_all_feature(TS, AMP, rec_dur, SaRa, Selection, time_win, FR_min, N=0, binSize=0):
+def matlab_all_feature(TS, AMP, rec_dur, SaRa, Selection, time_win, FR_min, N=60, binSize=[], flag_norm=0, flat_waitbar=0):
     TS = np.transpose(TS)
     TS = matlab.double(TS.tolist())
     AMP = matlab.double(AMP.tolist())
     drcell_path = os.path.normpath(os.getcwd())
-    path_manuell_python = drcell_path + os.path.normpath('/DrCell/shared/Engines/Python')
+    drcell_path = os.path.join(os.getcwd(), "DrCell")
+    path_manuell_python = drcell_path + os.path.normpath('/shared/Engines/Python')
     eng = matlab.engine.start_matlab()  # MatLab Umgebung aufrufen
     eng.cd(path_manuell_python)
-    values = eng.adapter_python(drcell_path, TS, AMP, float(rec_dur), float(SaRa), Selection, float(time_win), float(FR_min))
+    values = eng.adapter_python(drcell_path, TS, AMP, float(rec_dur), float(SaRa), Selection, float(time_win), float(FR_min), N, binSize, flag_norm, flat_waitbar)
     eng.quit()
     print(f"Mean of {Selection}: {values[0][0]}")
     print("Done Calculating " + Selection)

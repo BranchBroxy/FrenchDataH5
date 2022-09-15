@@ -26,6 +26,14 @@ matlab_feautre_list_french_data_test = [
 
 def init_function():
     import os
+    from sys import platform
+
+    if platform == "linux" or platform == "linux2":
+        print("linux")
+    elif platform == "darwin":
+        print("darwin")
+    elif platform == "win32":
+        print("win32")
     if os.path.exists(os.path.join(os.getcwd(), "DrCell")) and os.path.isfile(os.path.join(os.getcwd(), "DrCell", "DrCell.m")):
         print("DrCell available")
     else:
@@ -85,9 +93,11 @@ def calculate_save_matlab_feature(data):
     from matlab_apy import matlab_calc_feature
     from import_file import import_h5
     from export_feature import export_feature_in_csv, export_feature_in_hdf5
-    for file in data:
+    for file_count, file in enumerate(data):
+        print(f"Calculating file number {file_count+1} out of {str(len(data))}:")
         spike_list, amp, rec_dur, SaRa = import_h5(file)
-        for feature in matlab_feautre_list_french_data:
+        for feature_count, feature in enumerate(matlab_feautre_list_french_data):
+            print(f"Calculating feature number {feature_count+1} out of {str(len(matlab_feautre_list_french_data))}:")
             # calculates the features via matlab
             feature_mean, feature_values, feature_std, feature_pref, feature_label = matlab_calc_feature(spike_list, amp, rec_dur, SaRa, feature)
             # saves the feature in csv file, csv_filename is path
@@ -164,18 +174,18 @@ def plot_all_feature(con_json_path, sync_json_path):
     # plot sync feature
     from manipulate_feature import sync_list
     for feature in sync_list:
-        plot_data_over_div_sync(synchrony_data_frame, feature)
+        plot_data_over_div_sync(synchrony_data_frame, feature, mode="seaborn.swarmplot", verbose=True)
 
     # plot con feature
     from manipulate_feature import con_list
     for feature in con_list:
-        plot_data_over_div_con(connectivity_data_frame, feature)
+        plot_data_over_div_con(connectivity_data_frame, feature, verbose=True)
 
 
 if __name__ == '__main__':
-    path = "/mnt/HDD/Data/FrenchData/"
+    # path = "/mnt/HDD/Data/FrenchData/"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
-    # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
+    path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/4div/ctrl"
@@ -185,10 +195,9 @@ if __name__ == '__main__':
     all_h5_files = get_list_of_files(path, [".h5"])
     # print(all_h5_files)
     print("Total number of files: " + str(len(all_h5_files)))
-    # csv_feature_path = calculate_save_matlab_feature(all_h5_files)
+    csv_feature_path = calculate_save_matlab_feature(all_h5_files)
     csv_feature_path = "Feature.csv"
     print("Feature Calculation completly done")
-    # csv_feature_path = "/mnt/HDD/Programmieren/Python/FrenchDataH5/Feature.csv"
     con_json_path, sync_json_path = post_process_feature(csv_feature_path)
     print("Post Processing of Connectivty Matrix done")
     plot_all_feature(con_json_path, sync_json_path)

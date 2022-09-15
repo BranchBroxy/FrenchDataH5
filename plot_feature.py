@@ -112,12 +112,6 @@ def plot_CM(CM, directory, path="", weights=False):
             nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=False, alpha=0.1)
 
 
-
-
-
-
-
-
     old_labels = {  56: "", 57: 21, 58: 31, 59: 41, 60: 51, 61: 61, 62: 71, 63: "",
                 48: 12, 49: 22, 50: 32, 51: 42, 52: 52, 53: 62, 54: 72, 55: 82,
                 40: 13, 41: 23, 42: 33, 43: 43, 44: 53, 45: 63, 46: 73, 47: 83,
@@ -154,7 +148,7 @@ def plot_CM(CM, directory, path="", weights=False):
         os.mkdir(path)
         path = directory + "/" + directory + "_" + TSPE_filename + ".png"
         plt.savefig(path, edgecolor=None, bbox_inches="")
-
+    #plt.close()
     # plt.show()
 
 
@@ -254,15 +248,15 @@ def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
         print(f'Plotting Synchrony feature {feature}')
 
     if mode == "seaborn" or mode == "seaborn.swarmplot":
-        N=150
+        #N=150
         fig, ax = plt.subplots(figsize=(20, 10), dpi=80)
         sns.swarmplot(x=df_feature.DIV, y=df_feature.Value, size=8, ax=ax, linewidth=1, dodge=True,
                       hue=df_feature.Group)
         plt.title(feature + 'method Synchrony', fontsize=22)
-        plt.xticks(range(N))  # add loads of ticks
+        #plt.xticks(range(N))  # add loads of ticks
         # plt.grid()
 
-        plt.gca().margins(x=0.1, tight=True)
+        """plt.gca().margins(x=0.1, tight=True)
         plt.gcf().canvas.draw()
         # plt.gca().set_xlim([3, 11])
         # plt.gcf().canvas.draw()
@@ -273,7 +267,7 @@ def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
         margin = m / plt.gcf().get_size_inches()[0]
 
         plt.gcf().subplots_adjust(left=margin, right=1. - margin)
-        plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])
+        plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])"""
 
         try:
             path = "SyncPlot/" + feature + "DIV" + ".png"

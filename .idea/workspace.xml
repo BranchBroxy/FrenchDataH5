@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="extend plot function and improve matlab_apy.py automatic path finding">
+    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="general improvement, add plots">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Feature.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matlab_apy.py" beforeDir="false" afterPath="$PROJECT_DIR$/matlab_apy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plot_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_feature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +22,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_COMMON_BRANCH" value="master" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/export_feature.py" root0="FORCE_HIGHLIGHTING" />
@@ -49,7 +51,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.try">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="FrenchDataH5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -78,9 +80,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../../../Programme/anaconda3/envs/FrenchDataH5/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/try.py" />
@@ -218,21 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661257002614</updated>
     </task>
-    <task id="LOCAL-00005" summary="add init_function and change output_bool to verbose">
-      <created>1662894240099</created>
+    <task id="LOCAL-00005" summary="general improvement, add plots">
+      <created>1662063784774</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1662894240099</updated>
+      <updated>1662063784774</updated>
     </task>
-    <task id="LOCAL-00006" summary="extend plot function and improve matlab_apy.py automatic path finding">
-      <created>1662982651307</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1662982651307</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,22 +249,26 @@
     <MESSAGE value="add calculate_n_moment_of_CM, CM_number_of_connections and general comments" />
     <MESSAGE value="add comments, new function sync_plot" />
     <MESSAGE value="add connectivity_data_frame, synchrony_data_frame and software tests for find_div_of_file, find_group_of_file" />
-    <MESSAGE value="add init_function and change output_bool to verbose" />
-    <MESSAGE value="extend plot function and improve matlab_apy.py automatic path finding" />
-    <option name="LAST_COMMIT_MESSAGE" value="extend plot function and improve matlab_apy.py automatic path finding" />
+    <MESSAGE value="general improvement, add plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="general improvement, add plots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>28</line>
-          <option name="timeStamp" value="45" />
+          <url>file://$PROJECT_DIR$/software_test.py</url>
+          <line>123</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/try.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="51" />
+          <line>5</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/plot_feature.py</url>
+          <line>243</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
