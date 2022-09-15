@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="add init_function and change output_bool to verbose">
+    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="extend plot function and improve matlab_apy.py automatic path finding">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matlab_apy.py" beforeDir="false" afterPath="$PROJECT_DIR$/matlab_apy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plot_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_feature.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -226,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662894240099</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="extend plot function and improve matlab_apy.py automatic path finding">
+      <created>1662982651307</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1662982651307</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -249,7 +255,8 @@
     <MESSAGE value="add comments, new function sync_plot" />
     <MESSAGE value="add connectivity_data_frame, synchrony_data_frame and software tests for find_div_of_file, find_group_of_file" />
     <MESSAGE value="add init_function and change output_bool to verbose" />
-    <option name="LAST_COMMIT_MESSAGE" value="add init_function and change output_bool to verbose" />
+    <MESSAGE value="extend plot function and improve matlab_apy.py automatic path finding" />
+    <option name="LAST_COMMIT_MESSAGE" value="extend plot function and improve matlab_apy.py automatic path finding" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
