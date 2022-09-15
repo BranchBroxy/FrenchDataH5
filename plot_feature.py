@@ -260,7 +260,7 @@ def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
                       hue=df_feature.Group)
         plt.title(feature + 'method Synchrony', fontsize=22)
         plt.xticks(range(N))  # add loads of ticks
-        plt.grid()
+        # plt.grid()
 
         plt.gca().margins(x=0.1, tight=True)
         plt.gcf().canvas.draw()
