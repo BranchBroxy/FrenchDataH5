@@ -253,6 +253,9 @@ def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
         sns.swarmplot(x=df_feature.DIV, y=df_feature.Value, size=8, ax=ax, linewidth=1, dodge=True,
                       hue=df_feature.Group)
         plt.title(feature + 'method Synchrony', fontsize=22)
+        for i in range(df["DIV"].value_counts().shape[0]):
+            if i % 2 == 0:
+                plt.axvspan(i - 0.5, i + .5, facecolor='gray', alpha=0.3)
         #plt.xticks(range(N))  # add loads of ticks
         # plt.grid()
 
@@ -288,6 +291,9 @@ def plot_data_over_div_sync(df, feature, mode="seaborn", verbose=False):
         plt.title(feature + ' method Synchrony', fontsize=22)
         sns.stripplot(x=df_feature.DIV, y=df_feature.Value, jitter=0, size=5, ax=ax, linewidth=1,
                       dodge=True, hue=df_feature.Group, palette="Set1", data=df_feature)
+        for i in range(df["DIV"].value_counts().shape[0]):
+            if i % 2 == 0:
+                plt.axvspan(i - 0.5, i + .5, facecolor='gray', alpha=0.3)
         try:
             path = "SyncPlot/" + feature + "DIV" + ".png"
             plt.savefig(path, edgecolor=None, bbox_inches="")
