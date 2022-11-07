@@ -310,13 +310,14 @@ def find_div_of_file(filename):
     return div
 
 def find_group_of_file(filename):
-    if "CTRL" in filename:
+
+    if "CTRL" in filename.upper():
         return "CTRL"
-    elif "FIBRILLAR TAU" in filename:
+    elif "FIBRILLAR TAU" in filename.upper() or "FIBRILLAR  TAU" in filename.upper():
         return "FIBRILLAR TAU"
-    elif "GST" in filename:
+    elif "GST" in filename.upper():
         return "GST"
-    elif "SOLUBLE TAU" in filename:
+    elif "SOLUBLE TAU" in filename.upper() or "SOLULE TAU" in filename.upper():
         return "SOLUBLE TAU"
     else:
         return False

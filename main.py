@@ -188,7 +188,7 @@ if __name__ == '__main__':
     total_start = perf_counter()
     # path = "/mnt/HDD/Data/FrenchData/"
     path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
-    path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1"
+    path = "D:\Data\culture du 29_11_2021 version matlab_experience 1"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
@@ -205,7 +205,7 @@ if __name__ == '__main__':
     print("Total number of files: " + str(len(all_h5_files)))
 
     relativ_time = perf_counter()
-    csv_feature_path = calculate_save_matlab_feature(all_h5_files)
+    #csv_feature_path = calculate_save_matlab_feature(all_h5_files)
     csv_feature_path = "Feature.csv"
     print("Feature Calculation completly done")
     print(f"Calculating all features took {dt.strftime(dt.utcfromtimestamp(perf_counter() - relativ_time), '%H:%M:%S')}")
