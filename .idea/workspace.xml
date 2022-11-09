@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="update plot function">
+    <list default="true" id="a41f5c6d-b3b1-4746-a2dd-501677537403" name="Changes" comment="general improvement, add plots">
+      <change afterPath="$PROJECT_DIR$/decorators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manipulate_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/manipulate_feature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_feature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/software_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/software_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +22,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_COMMON_BRANCH" value="test_branch" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/DrCell" />
-    <option name="ROOT_SYNC" value="SYNC" />
-    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/export_feature.py" root0="FORCE_HIGHLIGHTING" />
@@ -80,9 +80,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../../../Programme/anaconda3/envs/FrenchDataH5/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/try.py" />
@@ -175,11 +175,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for software_test.TestDDT.test_CM_and_CM_DDT_diffrent" />
+        <item itemvalue="Python tests.Python tests for software_test.TestDDT.test_apply_DDT_to_neg_CM" />
+        <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_CM_number_of_connections" />
         <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_n_moment_of_CM_two" />
         <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_n_moment_of_CM_one" />
-        <item itemvalue="Python tests.Python tests for software_test.Test_CM_manipulation.test_CM_number_of_connections" />
-        <item itemvalue="Python tests.Python tests for software_test.TestDDT.test_apply_DDT_to_neg_CM" />
-        <item itemvalue="Python tests.Python tests for software_test.TestDDT.test_CM_and_CM_DDT_diffrent" />
       </list>
     </recent_temporary>
   </component>
@@ -220,28 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661257002614</updated>
     </task>
-    <task id="LOCAL-00005" summary="add init_function and change output_bool to verbose">
-      <created>1662894240099</created>
+    <task id="LOCAL-00005" summary="general improvement, add plots">
+      <created>1662063784774</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1662894240099</updated>
+      <updated>1662063784774</updated>
     </task>
-    <task id="LOCAL-00006" summary="extend plot function and improve matlab_apy.py automatic path finding">
-      <created>1662982651307</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1662982651307</updated>
-    </task>
-    <task id="LOCAL-00007" summary="update plot function">
-      <created>1663238587420</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1663238587420</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -263,23 +249,31 @@
     <MESSAGE value="add calculate_n_moment_of_CM, CM_number_of_connections and general comments" />
     <MESSAGE value="add comments, new function sync_plot" />
     <MESSAGE value="add connectivity_data_frame, synchrony_data_frame and software tests for find_div_of_file, find_group_of_file" />
-    <MESSAGE value="add init_function and change output_bool to verbose" />
-    <MESSAGE value="extend plot function and improve matlab_apy.py automatic path finding" />
-    <MESSAGE value="update plot function" />
-    <option name="LAST_COMMIT_MESSAGE" value="update plot function" />
+    <MESSAGE value="general improvement, add plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="general improvement, add plots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/try.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="52" />
+          <url>file://$PROJECT_DIR$/software_test.py</url>
+          <line>123</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/matlab_apy.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="53" />
+          <url>file://$PROJECT_DIR$/try.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>81</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>205</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

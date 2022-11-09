@@ -126,6 +126,17 @@ class TestDDT(unittest.TestCase):
             CM = np.array(row.CM)
             CM_DDT = np.array(row.CM_DDT)
             self.assertEqual(False, np.array_equal(CM, CM_DDT))"""
+class TestMatLabEngine(unittest.TestCase):
+    def test_TSPE(self):
+        from matlab_apy import matlab_calc_feature
+        spike_list = np.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])
+        amp = np.array([0])
+        rec_dur = 5/1000
+        SaRa = 1000
+        feature = 'Connectivity_TSPE'
+        feature_mean, feature_values, feature_std, feature_pref, feature_label = matlab_calc_feature(spike_list, amp, rec_dur, SaRa, feature)
+        print(feature_mean)
+
 
 if __name__ == '__main__':
     unittest.main()

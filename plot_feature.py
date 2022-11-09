@@ -216,6 +216,9 @@ def plot_data_over_div_con(df, feature, verbose=False):
                          template=None, width=None, height=None)"""
     if verbose:
         print(f'Plotting Connectivity feature {feature}')
+    for i in range(df["DIV"].value_counts().shape[0]):
+        if i % 2 == 0:
+            plt.axvspan(i - 0.5, i + .5, facecolor='gray', alpha=0.3)
 
     try:
         path = "ConPlot/" + feature + "DIV" + ".png"

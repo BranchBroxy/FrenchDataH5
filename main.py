@@ -1,3 +1,7 @@
+# https://pypi.org/project/pipreqs/
+# https://pypi.org/project/matlabengine/
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mnt/HDD/Programme/MatLab_2022b/bin/glnxa64
+
 matlab_feautre_list_french_data = [
 'Sync_CC_selinger',
 'Sync_STTC',
@@ -24,6 +28,8 @@ matlab_feautre_list_french_data_test = [
 'Connectivity_TSPE'
 ]
 
+from decorators import get_time
+@get_time
 def init_function():
     import os
     from sys import platform
@@ -47,7 +53,7 @@ def init_function():
         repo_dir = os.path.join(cwd, directory)
         Repo.clone_from(git_url, repo_dir)
 
-
+@get_time
 def get_list_of_files(path, file_type):
     """
         Generates a list with all file path from a given path.
@@ -75,7 +81,7 @@ def get_list_of_files(path, file_type):
         all_files.append(path)
     return all_files
 
-
+@get_time
 def calculate_save_matlab_feature(data):
     """
             Calculates, saves and exports the Data in a csv file.
@@ -108,6 +114,7 @@ def calculate_save_matlab_feature(data):
 
     return csv_path
 
+@get_time
 def post_process_feature(csv_path, h5_path=""):
     """
             Manipulates the features if necessary.
@@ -141,6 +148,7 @@ def post_process_feature(csv_path, h5_path=""):
 
     return con_path, sync_path
 
+@get_time
 def plot_all_feature(con_json_path, sync_json_path):
     """
             Plots all feature and connectivty matrizes.
@@ -183,46 +191,35 @@ def plot_all_feature(con_json_path, sync_json_path):
 
 
 if __name__ == '__main__':
-    from time import perf_counter
-    from datetime import datetime as dt
-    total_start = perf_counter()
+
     # path = "/mnt/HDD/Data/FrenchData/"
     path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2"
-    path = "D:\Data\culture du 29_11_2021 version matlab_experience 1"
+    path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL"
     # path = "/mnt/HDD/Data/FrenchData/culture du 10_01_2022 version matlab_experience 2/7div/CTRL/2021-10-23T14-51-29SC_10_01_2021_7DIV_38709_cortex.h5"
     # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/4div/ctrl"
-    # path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/7div/GST"
+    path = "/mnt/HDD/Data/FrenchData/culture_du_29_11_2021_version_matlab_experience_1/7div/GST"
     init_function()
     print("Import of data ...")
-    print(f"took {perf_counter() - total_start} seconds")
 
-    relativ_time = perf_counter()
     all_h5_files = get_list_of_files(path, [".h5"])
-    print(f"Getting all files took {perf_counter() - relativ_time} seconds")
     # print(all_h5_files)
     print("Total number of files: " + str(len(all_h5_files)))
 
-    relativ_time = perf_counter()
-    #csv_feature_path = calculate_save_matlab_feature(all_h5_files)
+    csv_feature_path = calculate_save_matlab_feature(all_h5_files)
     csv_feature_path = "Feature.csv"
     print("Feature Calculation completly done")
-    print(f"Calculating all features took {dt.strftime(dt.utcfromtimestamp(perf_counter() - relativ_time), '%H:%M:%S')}")
 
-    relativ_time = perf_counter()
     con_json_path, sync_json_path = post_process_feature(csv_feature_path)
     print("Post Processing of Connectivty Matrix done")
-    print(f"Post Processing took {dt.strftime(dt.utcfromtimestamp(perf_counter() - relativ_time), '%H:%M:%S')}")
 
     con_json_path = "con_df.json"
     sync_json_path = "sync_df.json"
-    relativ_time = perf_counter()
+
     plot_all_feature(con_json_path, sync_json_path)
     print("Ploting of Feature and Connectivty Matrix done")
-    print(f"Ploting of Feature took {dt.strftime(dt.utcfromtimestamp(perf_counter() - relativ_time), '%H:%M:%S')}")
 
-    print(f"Complete analysis took {dt.strftime(dt.utcfromtimestamp(perf_counter() - total_start), '%H:%M:%S')}")
     print("Finished complete Analyses of Data")
 
 
